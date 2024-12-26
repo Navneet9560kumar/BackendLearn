@@ -1,0 +1,24 @@
+{
+  "name": "02-express",
+  "version": "1.0.0",
+  "description": "a project insipired by u tube",
+  "type": "module",
+  "main": " scr/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+"start": "node src/index.js",
+"dev": "nodemon  src/index.js"
+  },
+  "keywords": [
+    "nodejs",
+    "mangoose",
+    "express",
+    "backend"
+  ],
+  "author": "navneet",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongoose": "^8.9.2"
+  }
+}
