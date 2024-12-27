@@ -1,0 +1,1 @@
+we learn a ER diagram for how desing a shema of 
