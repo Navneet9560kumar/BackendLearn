@@ -1,32 +1,60 @@
-import{v2 as cloudinary} from 'cloudinary';
-import fs from 'fs';
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs/promises";
+import dotenv from "dotenv";
 
+dotenv.config();
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-
-//Configure Cloudinary
-
-cloudinary.config({ 
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
-      api_key: process.env.CLOUDINARY_API_KEY, 
-      api_secret: process.env.CLOUDINARY_API_SECRET// Click 'View API Keys' above to copy your API secret
-  });
-
-  const uploadOnCloudinary = async (localFilePath) => {
-      try {
-           if(!localFilePath) return null;
-           const responce = await cloudinary.uploader.upload(localFilePath,{
-            resource_type: "auto"
-           }
-       );
-       console.log("File will uplode successfully .File src :"+ responce.url);
-//onse the file is uplode, we would like to delete form our server 
-
-fs.unlinkSync(localFilePath)
-return responce
-
-      } catch (error) {
-            fs.unlinkSync(localFilePath);
-            return null;
-      }
+const uploadOnCloudinary = async (localFilePath) => {
+  if (!localFilePath) {
+    console.error("No file path provided for upload.");
+    return null;
   }
+
+  try {
+    const response = await cloudinary.uploader.upload(localFilePath, {
+      resource_type: "auto",
+    });
+
+    console.log("File uploaded successfully. File URL:", response.url);
+
+    try {
+      await fs.unlink(localFilePath);
+      console.log("Local file deleted successfully.");
+    } catch (unlinkError) {
+      console.error("Error deleting local file:", unlinkError);
+    }
+
+    return response;
+  } catch (uploadError) {
+    console.error("Error uploading to Cloudinary:", uploadError);
+
+    try {
+      await fs.unlink(localFilePath);
+      console.log("Local file deleted after upload failure.");
+    } catch (unlinkError) {
+      console.error("Error deleting local file after upload failure:", unlinkError);
+    }
+
+    return null;
+  }
+};
+
+
+const deletedOnCloudinary = async (publicId) => {
+    try {
+      const result =  await cloudinary.uploader.destroy(publicId)
+      console.log("Deleted file from cloudinary", result)
+    } catch (error) {
+        console.log("Error deleting file from cloudinary", error)
+        return null
+
+    }
+}
+
+export { uploadOnCloudinary, deletedOnCloudinary };

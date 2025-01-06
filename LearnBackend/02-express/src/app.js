@@ -19,8 +19,15 @@ app.use(express.static("public"));
 // Import Router
 import helthcheckroutes from "./routes/helthcheck.routes.js"; // Include `.js` extension for ES modules
 
+import userRouter from "./routes/user.routes.js"; // Include `.js` extension for ES modules
+import { errroHandler } from "./middlewares/error.middlewares.js";
+
 // Routes
-app.use("/api/v1/helthcheck", helthcheckroutes); // Updated route prefix for better naming
+app.use("/api/v1/helthcheck", helthcheckroutes); 
+
+app.use	("/api/v1/user", userRouter);
 
 // Export the Express app
+
+app.use(errroHandler)
 export default app;

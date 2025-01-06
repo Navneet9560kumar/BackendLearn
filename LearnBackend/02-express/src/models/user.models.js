@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 const userSchema = new Schema(
   {
     username: {
@@ -8,7 +9,7 @@ const userSchema = new Schema(
       required: true,
       unique: true,
       lowercase: true,
-      trime: true,
+      trim: true,
       index: true,
     },
     email: {
@@ -16,20 +17,20 @@ const userSchema = new Schema(
       required: true,
       unique: true,
       lowercase: true,
-      trime: true,
+      trim: true,
     },
     fullname: {
       type: String,
       required: true,
-      trime: true,
+      trim: true,
       index: true,
     },
     avatar: {
-      type: String, //cloudnaray url
+      type: String, // cloudinary url
       required: true,
     },
     CoverImage: {
-      type: String, //cloudnaray url
+      type: String, // cloudinary url
     },
     watchHistory: [
       {
@@ -49,29 +50,26 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.modified("password")) return next();
+  if (!this.isModified("password")) return next();
 
-  this.password = bcrypt.hash(this.password, 10);
-
-  nexy();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
 });
-
 
 userSchema.methods.isPasswordCorrect = async function(password) {
   return await bcrypt.compare(password, this.password);
 }
 
 userSchema.methods.generateRefreshToken = function() {
-  // sort lived token
-   return jwt.sign({
-  id: this._id,
-  email: this.email,
-  username: this.username,
-  fullname: this.fullname,
-
-  },
-  process.env.REFRESH_TOKEN_SECRET,
-{expiresIn: process.env.ACCESS_TOKEN_EXPIRE}
+  return jwt.sign(
+    {
+      id: this._id,
+      email: this.email,
+      username: this.username,
+      fullname: this.fullname,
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: process.env.ACCESS_TOKEN_EXPIRE }
   );
 }
 
