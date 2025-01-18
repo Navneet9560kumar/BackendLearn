@@ -31,3 +31,5 @@ app.use	("/api/v1/user", userRouter);
 
 app.use(errroHandler)
 export default app;
+
+//http://localhost:7000/api/v1/user/register

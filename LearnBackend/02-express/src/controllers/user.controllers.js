@@ -4,6 +4,21 @@ import { User } from "../models/user.models.js";
 import {uploadOnCloudinary,deletedOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 
+
+const generateAccessRefershToken = async (userId)=>{
+   const user = User.findById(userId).then((user)=>{
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }else{
+      const accessToken = user.generateAccessToken();
+      const refreshToken = user.generateRefreshToken();
+      return {accessToken, refreshToken}
+    }
+  })
+}
+
+
+
 const registerUser = asyncHandler(async (req, res) => {
   const { fullname, email, username, password } = req.body;
 
@@ -66,11 +81,11 @@ try {
     username: username.toLowerCase(),
   });
 
-  const createUser = await User.findById(user._id).select("-password -refreshToken");
+  // const createUser = await User.findById(user._id).select("-password -refreshToken");
 
-  if (!createUser) {
-    throw new ApiError(500, "Something went wrong while registering the user");
-  }
+  // if (!createUser) {
+  //   throw new ApiError(500, "Something went wrong while registering the user");
+  // }
 
   return res
     .status(201)
