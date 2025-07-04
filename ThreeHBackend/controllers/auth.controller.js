@@ -47,7 +47,7 @@ export const signUp = async (req, res, next) => {
       message: 'User created successfully',
       data: {
         user: newUser[0],
-        token: token,
+        token
       },
     });
 
@@ -60,8 +60,38 @@ export const signUp = async (req, res, next) => {
 
 export const signIn = async (req, res, next) => {
   // To be implemented
+  try {
+      const {email,password} =req.body;
+
+
+      const user  = await User .findOne({email});
+
+      if(!user){
+        const error = new Error('User not fonund')
+        error.statusCode = 404;
+        throw error;
+      }
+const isPasswordValid = await bcrypt.compare(password, user.password);
+
+if(!isPasswordValid){
+  const error  =new Error('Invalid password');
+  error.statusCode =401;
+  throw error;
+}
+
+const token =  jwt.sign({userId:user.id},JWT_SECRET,{expiresIn:JWT_EXPIRES_IN});
+
+res.status(200).json({
+  success:true,
+  message:''
+})
+
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const signOut = async (req, res, next) => {
   // To be implemented
 };
+
