@@ -83,7 +83,11 @@ const token =  jwt.sign({userId:user.id},JWT_SECRET,{expiresIn:JWT_EXPIRES_IN});
 
 res.status(200).json({
   success:true,
-  message:''
+  message:'User in successfuly',
+  data:{
+    token,
+    user,
+  }
 })
 
   } catch (error) {
