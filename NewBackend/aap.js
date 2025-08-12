@@ -19,6 +19,15 @@ app.use(cors({
 
 }))
 
+// import the router
+
+import heathCheckRouter from "./src/routes/healthcheck.routes.js";
+
+app.use("/api/v1/healthcheck" , heathCheckRouter)
+
+
+
+
 app.get("/",(req,res)=>{
       res.send("wellcome to my word")
 })

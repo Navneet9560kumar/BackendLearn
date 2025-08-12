@@ -1,4 +1,16 @@
 export const UserRolesEnum ={
-      ADMIN: "admin"
+      ADMIN: "admin",
+      PROJECT_ADMIN: "project_admin",
+      MEMBER: "member"
       
 }
+
+export const AvailableUserRole = Object.values(UserRolesEnum)
+
+export const TaskStatusEnum ={
+      TODO: "todo",
+      IN_PROGRESS: "in-progress",
+      DONE: "done"
+}
+
+export const AvailableTaskStatuse = Object.values(TaskStatusEnum)
