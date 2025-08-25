@@ -1,6 +1,6 @@
 import { User } from "../models/user.models.js";
 import { ApiResponse } from "../utils/api-response.js";
-import { ApiError } from "../utils/api-error.js";
+import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/async-hadler.js";
 import { sendEmail, emailVerificationMailgenContent } from "../utils/mail.js";
 
@@ -8,15 +8,21 @@ import { sendEmail, emailVerificationMailgenContent } from "../utils/mail.js";
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
+    console.log("🟡 Fetched user:", user);  // <-- Debug line
 
-    const accessToken = user.generateAccessToken();   
-    const refreshToken = user.generateRefreshToken(); 
+    if (!user) {
+      throw new ApiError(404, "User not found with this ID");
+    }
+
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
 
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
     return { accessToken, refreshToken };
   } catch (error) {
+    console.error("❌ Token generation error:", error);
     throw new ApiError(500, "Something went wrong while generating tokens");
   }
 };
@@ -27,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // check existing user
   const existingUser = await User.findOne({
-    $or: [{ username }, { email }]
+    $or: [{ username }, { email }],
   });
 
   if (existingUser) {
@@ -40,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     username,
     role,
-    isEmailVerified: false
+    isEmailVerified: false,
   });
 
   // generate temporary token
@@ -75,4 +81,56 @@ const registerUser = asyncHandler(async (req, res) => {
   );
 });
 
-export { registerUser };
+// ✅ Login User
+const login = asyncHandler(async (req, res) => {
+  const { email, password, username } = req.body;
+
+  // check username/email
+  if (!email && !username) {
+    throw new ApiError(400, "Username or email is required");
+  }
+
+  // find user by email or username
+  const user = await User.findOne(email ? { email } : { username });
+
+  if (!user) {
+    throw new ApiError(400, "User does not exist");
+  }
+
+  // validate password
+  const isPasswordValid = await user.isPasswordCorrect(password);
+  if (!isPasswordValid) {
+    throw new ApiError(400, "Invalid credentials");
+  }
+
+  // generate tokens
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+
+  // remove sensitive fields
+  const loggedInUser = await User.findById(user._id).select(
+    "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
+  );
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options) // ✅ fix: pehle accessToken dobara likha tha
+    .json(
+      new ApiResponse(
+        200,
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        "User logged in successfully"
+      )
+    );
+});
+
+export { registerUser, login };
