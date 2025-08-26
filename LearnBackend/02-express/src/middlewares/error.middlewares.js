@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ApiError } from "../utils/ApiError.js";
+import { ApiError } from "../utils/";
 
 // Yeh ek error handling middleware hai
 const errroHandler = (err, req, res, next) => {
