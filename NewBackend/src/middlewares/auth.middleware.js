@@ -5,7 +5,7 @@ import { asyncHandler } from "../utils/async-hadler.js";
 import jwt from "jsonwebtoken"
 
 export const verifyJWT = asyncHandler(async(req,res,next) =>{
-      const Token =req.cookies?.accessToken || req.hader("Authorization")?.replace("Bearer" , "")
+      const Token =req.cookies?.accessToken || req.header("Authorization") ?.replace("Bearer" , "")
 
       if(!Token){
             throw new ApiError(401, "unauthorized request")
@@ -13,7 +13,7 @@ export const verifyJWT = asyncHandler(async(req,res,next) =>{
 
       try {
            const decoded =  jwt.verify(Token, process.env.ACCESS_TOKEN_SECRET)
-           const user = await User.findById(decodedToken?._id).select(
+           const user = await User.findById(decoded?._id).select(
               "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
            );
 
