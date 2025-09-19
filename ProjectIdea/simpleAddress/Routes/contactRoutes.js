@@ -61,4 +61,5 @@ routes.delete("/:id", async (req, res) => {
 });
 
 export default routes;
+
 // Note: Make sure to import and use this router in your main server file (e.g., index.js) with app.use('/contacts', contactRoutes);      
