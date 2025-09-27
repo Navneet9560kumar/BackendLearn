@@ -1,0 +1,88 @@
+{
+  "jobs": [
+    {
+      "id": 1,
+      "title": "Frontend Developer",
+      "company": "TechSoft Pvt Ltd",
+      "location": "Gurugram, India",
+      "type": "Full-time",
+      "salary": "₹6,00,000 - ₹10,00,000 per annum",
+      "requirements": [
+        "2+ years experience in React.js",
+        "Good knowledge of JavaScript, HTML, CSS",
+        "Experience with TailwindCSS or Material UI"
+      ],
+      "postedDate": "2025-09-20"
+    },
+    {
+      "id": 2,
+      "title": "Backend Developer",
+      "company": "CloudWorks",
+      "location": "Bengaluru, India",
+      "type": "Full-time",
+      "salary": "₹8,00,000 - ₹12,00,000 per annum",
+      "requirements": [
+        "3+ years experience with Node.js & Express",
+        "Knowledge of MongoDB or PostgreSQL",
+        "REST APIs and GraphQL experience"
+      ],
+      "postedDate": "2025-09-22"
+    },
+    {
+      "id": 3,
+      "title": "UI/UX Designer",
+      "company": "Pixel Studio",
+      "location": "Remote",
+      "type": "Contract",
+      "salary": "₹4,00,000 - ₹6,00,000 per annum",
+      "requirements": [
+        "Strong skills in Figma, Adobe XD",
+        "Experience in mobile and web design",
+        "Good communication and teamwork"
+      ],
+      "postedDate": "2025-09-23"
+    },
+    {
+      "id": 4,
+      "title": "Data Scientist",
+      "company": "AI Labs",
+      "location": "Hyderabad, India",
+      "type": "Full-time",
+      "salary": "₹10,00,000 - ₹18,00,000 per annum",
+      "requirements": [
+        "Experience with Python, R, and SQL",
+        "Knowledge of ML frameworks (TensorFlow, PyTorch)",
+        "Strong statistics and data visualization skills"
+      ],
+      "postedDate": "2025-09-24"
+    },
+    {
+      "id": 5,
+      "title": "DevOps Engineer",
+      "company": "NextGen Solutions",
+      "location": "Pune, India",
+      "type": "Full-time",
+      "salary": "₹9,00,000 - ₹14,00,000 per annum",
+      "requirements": [
+        "Experience with AWS, Docker, Kubernetes",
+        "CI/CD pipeline setup and monitoring",
+        "Linux and shell scripting"
+      ],
+      "postedDate": "2025-09-25"
+    },
+    {
+      "id": 6,
+      "title": "Mobile App Developer",
+      "company": "Appify Technologies",
+      "location": "Remote",
+      "type": "Full-time",
+      "salary": "₹7,00,000 - ₹11,00,000 per annum",
+      "requirements": [
+        "2+ years experience in Flutter or React Native",
+        "Strong knowledge of mobile UI/UX principles",
+        "Experience publishing apps on Play Store / App Store"
+      ],
+      "postedDate": "2025-09-26"
+    }
+  ]
+}

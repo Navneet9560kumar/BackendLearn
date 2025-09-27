@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Header() {
+const About =()=>{
   return (
     <div>
-      guh
+      <h1>About Page</h1>
     </div>
   )
 }
 
-export default Header
+export default About
