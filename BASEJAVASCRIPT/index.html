@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Haunted School — Story Adventure</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Haunted School — An Interactive Story</h1>
+    </header>
+
+    <!-- Start / Name Screen -->
+    <section id="startScreen" class="card active">
+      <h2>Enter your name to begin</h2>
+      <input id="nameInput" type="text" placeholder="Type your name..." />
+      <div class="row">
+        <button id="startBtn" class="btn">Start Adventure</button>
+        <button id="demoBtn" class="btn alt">Play Demo</button>
+      </div>
+      <p class="hint">Tip: Choose carefully — every choice changes the path.</p>
+    </section>
+
+    <!-- Game Screen -->
+    <section id="gameScreen" class="card">
+      <div class="meta">
+        <span id="playerName"></span>
+        <button id="restartTop" class="btn small">Restart</button>
+      </div>
+
+      <div id="storyBox" class="story-box">
+        <p id="storyText" class="story-text"></p>
+      </div>
+
+      <div id="choices" class="choices"></div>
+
+      <div id="endActions" class="end-actions hidden">
+        <button id="restartBtn" class="btn">Play Again</button>
+        <button id="shareBtn" class="btn alt">Copy Share Link (scene)</button>
+      </div>
+    </section>
+
+    <footer>
+      <small>Made for class project • Use HTML / CSS / JS • Theme: Haunted School</small>
+    </footer>
+  </div>
+
+  <!-- Audio (optional) -->
+  <audio id="bgAudio" loop src="assets/bg.mp3"></audio>
+  <audio id="clickAudio" src="assets/click.mp3"></audio>
+  <audio id="winAudio" src="assets/win.mp3"></audio>
+
+  <script src="index.js"></script>
+</body>
+</html>
